@@ -1,0 +1,11 @@
+.search-list-table {
+    margin: 0px auto 20px auto;
+    background-color: #f1d33f;
+    width : 90%;
+    height: 90%;
+    overflow-y: scroll;
+}
+
+table {
+    border: 1px solid #333;
+}

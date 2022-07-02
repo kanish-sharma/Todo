@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, { Suspense, lazy } from "react";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Login from "./components/Login/Login.jsx";
+import Employees from "./components/AddTodo/AddTodo.jsx";
+import PageNotFound from "./components/PageNotFound";
+const Search = lazy(() => import("./components/SearchTodo/Search.jsx"));
+const Chart = lazy(() => import("./components/Chart/Chart.jsx"));
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Suspense fallback={<div>Loading....</div>}>
+        <Routes>
+          <Route exact path="/" element={<Login />}></Route>
+          <Route exact path="/home" element={<ProtectedRoute />}>
+            <Route exact path="/home" element={<Search />}></Route>
+          </Route>
+          <Route exact path="/add" element={<ProtectedRoute />}>
+            <Route exact path="/add" element={<Employees />}></Route>
+          </Route>
+          <Route exact path="/chart" element={<ProtectedRoute />}>
+            <Route exact path="/chart" element={<Chart />}></Route>
+          </Route>
+          <Route path="*" element={<PageNotFound/>}></Route>
+        </Routes>
+      </Suspense>
+    </BrowserRouter>
   );
 }
 
